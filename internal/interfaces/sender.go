@@ -6,4 +6,5 @@ import (
 
 type Sender interface {
 	Send(message entities.SenderMessage) error
+	GetType() entities.ContactType
 }

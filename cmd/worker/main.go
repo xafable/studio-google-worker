@@ -13,6 +13,17 @@ import (
 	"gopkg.in/telebot.v4"
 )
 
+func MakeTelegramAdapter() (interfaces.Sender, error) {
+	telebot, err := telebot.NewBot(telebot.Settings{
+		Token: os.Getenv("TELEGRAM_API_TOKEN"),
+	})
+	if err != nil {
+		fmt.Println("error create sender: ", err)
+		return nil, err
+	}
+	return adapters.NewTelegramSender(telebot), nil
+}
+
 func main() {
 	err := godotenv.Load()
 	if err != nil {
@@ -20,14 +31,11 @@ func main() {
 		os.Exit(0)
 	}
 
-	telebot, err := telebot.NewBot(telebot.Settings{
-		Token: os.Getenv("TELEGRAM_API_TOKEN"),
-	})
+	teleSender, err := MakeTelegramAdapter()
 	if err != nil {
-		fmt.Println("error create sender: ", err)
+		fmt.Println("error when create TelegramAdapter")
 		os.Exit(0)
 	}
-	sender := adapters.NewTelegramSender(telebot)
 
 	db, err := db.NewPostgres(os.Getenv("DB_DSN"))
 	if err != nil {
@@ -35,15 +43,22 @@ func main() {
 		os.Exit(0)
 	}
 
-	gotm := adapters.NewGormBirthdayRepo(db)
-	sheetOneID := os.Getenv("SHEET_ID")
-	bjobOne := worker.NewBirthdaysJob("GB", sheetOneID, gotm)
-	sendjob := worker.NewSendBirthdaysJob("send_birthdays", sender, gotm)
+	gormBirthRepo := adapters.NewGormBirthdayRepo(db)
+
+	sheetKidsID := os.Getenv("SHEET_KIDS_ID")
+	sheetAdultsID := os.Getenv("SHEET_ADULTS_ID")
+
+	getBirthdaysJobKids := worker.NewBirthdaysJob("GB", sheetKidsID, gormBirthRepo)
+	getBirthdaysJobAdults := worker.NewBirthdaysJob("GB", sheetAdultsID, gormBirthRepo)
+
+	sendJob := worker.NewSendBirthdaysJob("send_birthdays", teleSender, gormBirthRepo)
 
 	workerErrs := worker.Run([]interfaces.Job{
-		bjobOne,
-		sendjob,
+		getBirthdaysJobKids,
+		getBirthdaysJobAdults,
+		sendJob,
 	})
+
 	if workerErrs != nil {
 		fmt.Println("errors when run jobs: ", workerErrs)
 	}

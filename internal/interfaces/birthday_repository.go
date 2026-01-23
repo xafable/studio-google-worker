@@ -7,6 +7,8 @@ import (
 )
 
 type BirthdayRepository interface {
-	SaveBirthdays(birthdays []*entities.Birthday)
+	SaveBirthdays(birthdays []*entities.Birthday) error
 	FindByBirthdayDate(date time.Time) ([]*entities.Birthday, error)
+	SaveRecipient(recip entities.Recipient) error
+	GetRecipientsByType(t entities.ContactType) ([]*entities.Recipient, error)
 }

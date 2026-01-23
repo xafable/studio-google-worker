@@ -39,7 +39,20 @@ func (g GoogleSheetsApi) GetBirthdays() ([]*entities.Birthday, error) {
 		return nil, err
 	}
 
-	range_ := "page1!B:C"
+	sheet, err := srv.Spreadsheets.Get(g.SheetID).Do()
+	if err != nil {
+		fmt.Printf("error when create sheets service: %s", err)
+		return nil, err
+	}
+
+	if len(sheet.Sheets) == 0 {
+		return nil, fmt.Errorf("sheets not found")
+	}
+
+	sheetTitle := sheet.Sheets[0].Properties.Title
+
+	range_ := fmt.Sprintf("%s!B:C", sheetTitle)
+	//range_ := "page1!B:C"
 	resp, err := srv.Spreadsheets.Values.Get(g.SheetID, range_).Do()
 	if err != nil {
 		fmt.Printf("error when get sheets values: %s", err)

@@ -2,7 +2,6 @@ package worker
 
 import (
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/xafable/studio-google-worker/internal/entities"
@@ -24,14 +23,27 @@ func NewSendBirthdaysJob(name string, sender interfaces.Sender, birthdayReposito
 }
 
 func (sb SendBirthdaysJob) Do() error {
-	recipients := [1]int64{433380489}
+	recipients, _ := sb.BirthdayRepository.GetRecipientsByType(sb.Sender.GetType())
 	text := "Сьогодні в команді Stefhani Studio – важлива подія!💫 "
 
-	d := time.Date(2002, 12, 7, 0, 0, 0, 0, time.UTC)
+	now := time.Now()
+	d := time.Date(
+		now.Year(),
+		now.Month(),
+		now.Day(),
+		0, 0, 0, 0,
+		now.Location(),
+	)
+
 	birthdays, err := sb.BirthdayRepository.FindByBirthdayDate(d)
 	if err != nil {
 		fmt.Println("error when get FindByBirthdayDate", err)
 		return err
+	}
+
+	if len(birthdays) == 0 {
+		fmt.Println("no birthdays")
+		return nil
 	}
 
 	for _, bi := range birthdays {
@@ -40,7 +52,7 @@ func (sb SendBirthdaysJob) Do() error {
 
 	for _, r := range recipients {
 		sb.Sender.Send(entities.SenderMessage{
-			To:   strconv.FormatInt(r, 10),
+			To:   r.ContactID,
 			Text: text,
 		})
 	}

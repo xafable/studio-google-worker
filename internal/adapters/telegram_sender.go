@@ -9,13 +9,19 @@ import (
 )
 
 type TelegramSender struct {
-	Bot *tele.Bot
+	Bot  *tele.Bot
+	Type entities.ContactType
 }
 
 func NewTelegramSender(bot *tele.Bot) *TelegramSender {
 	return &TelegramSender{
-		Bot: bot,
+		Bot:  bot,
+		Type: entities.ContactTypeTelegram,
 	}
+}
+
+func (s TelegramSender) GetType() entities.ContactType {
+	return s.Type
 }
 
 func (s TelegramSender) Send(m entities.SenderMessage) error {

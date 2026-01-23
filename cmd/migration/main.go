@@ -20,6 +20,7 @@ func main() {
 
 	m := gormigrate.New(db, gormigrate.DefaultOptions, []*gormigrate.Migration{
 		migrations.CreateBirthdaysTable(),
+		migrations.CreateRecipientsTable(),
 	})
 	err = m.Migrate()
 	if err != nil {
