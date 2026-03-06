@@ -3,8 +3,8 @@ package usecases
 import (
 	"strconv"
 
-	"github.com/xafable/studio-google-worker/internal/entities"
-	"github.com/xafable/studio-google-worker/internal/interfaces"
+	"github.com/xafable/studio-google-worker/internal/birthdays/entities"
+	"github.com/xafable/studio-google-worker/internal/birthdays/interfaces"
 )
 
 func HandleMessage(pu entities.PollerMessage, rep interfaces.BirthdayRepository) {

@@ -1,11 +1,11 @@
-package worker
+package usecases
 
 import (
 	"fmt"
 	"time"
 
-	"github.com/xafable/studio-google-worker/internal/entities"
-	"github.com/xafable/studio-google-worker/internal/interfaces"
+	"github.com/xafable/studio-google-worker/internal/birthdays/entities"
+	"github.com/xafable/studio-google-worker/internal/birthdays/interfaces"
 )
 
 type SendBirthdaysJob struct {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/xafable/studio-google-worker/internal/entities"
+	"github.com/xafable/studio-google-worker/internal/birthdays/entities"
 	tele "gopkg.in/telebot.v4"
 )
 

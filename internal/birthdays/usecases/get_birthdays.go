@@ -1,8 +1,8 @@
 package usecases
 
 import (
-	"github.com/xafable/studio-google-worker/internal/entities"
-	"github.com/xafable/studio-google-worker/internal/interfaces"
+	"github.com/xafable/studio-google-worker/internal/birthdays/entities"
+	"github.com/xafable/studio-google-worker/internal/birthdays/interfaces"
 )
 
 type GetBirthdays struct {

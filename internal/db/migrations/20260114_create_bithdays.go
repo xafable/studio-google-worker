@@ -2,7 +2,7 @@ package migrations
 
 import (
 	"github.com/go-gormigrate/gormigrate/v2"
-	"github.com/xafable/studio-google-worker/internal/entities"
+	"github.com/xafable/studio-google-worker/internal/birthdays/entities"
 	"gorm.io/gorm"
 )
 

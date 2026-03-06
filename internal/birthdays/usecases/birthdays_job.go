@@ -1,11 +1,10 @@
-package worker
+package usecases
 
 import (
 	"fmt"
 
-	"github.com/xafable/studio-google-worker/internal/adapters"
-	"github.com/xafable/studio-google-worker/internal/interfaces"
-	"github.com/xafable/studio-google-worker/internal/usecases"
+	"github.com/xafable/studio-google-worker/internal/birthdays/adapters"
+	"github.com/xafable/studio-google-worker/internal/birthdays/interfaces"
 )
 
 type BirthdaysJob struct {
@@ -24,7 +23,7 @@ func NewBirthdaysJob(name string, sheetID string, birthdayRepository interfaces.
 
 func (b BirthdaysJob) Do() error {
 	sapi := adapters.NewSheetsApi(b.SheetID)
-	gb := usecases.NewBirthdaysServ(b.BirthdayRepository, sapi)
+	gb := NewBirthdaysServ(b.BirthdayRepository, sapi)
 
 	bd, err := gb.Get()
 	if err != nil {

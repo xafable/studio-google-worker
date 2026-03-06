@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/xafable/studio-google-worker/internal/adapters"
+	"github.com/xafable/studio-google-worker/internal/birthdays/adapters"
+	"github.com/xafable/studio-google-worker/internal/birthdays/entities"
+	"github.com/xafable/studio-google-worker/internal/birthdays/usecases"
 	"github.com/xafable/studio-google-worker/internal/db"
-	"github.com/xafable/studio-google-worker/internal/entities"
-	"github.com/xafable/studio-google-worker/internal/usecases"
 	"gopkg.in/telebot.v4"
 )
 

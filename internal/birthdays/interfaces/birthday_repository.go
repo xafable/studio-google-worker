@@ -3,7 +3,7 @@ package interfaces
 import (
 	"time"
 
-	"github.com/xafable/studio-google-worker/internal/entities"
+	"github.com/xafable/studio-google-worker/internal/birthdays/entities"
 )
 
 type BirthdayRepository interface {

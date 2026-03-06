@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/xafable/studio-google-worker/internal/entities"
+	"github.com/xafable/studio-google-worker/internal/birthdays/entities"
 
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
